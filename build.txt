@@ -1,0 +1,8 @@
+author = Xahlicem, SolarEclipse28
+version = 0.1
+displayName = XRaces
+hideCode = true
+hideResources = true
+includeSource = false
+buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*
+includePDB = true
