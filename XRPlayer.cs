@@ -74,6 +74,14 @@ namespace XRaces {
             return true;
         }
 
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit) {
+            if (race == Race.Demon && target.life <= 0) player.AddBuff(mod.BuffType<Buffs.Bloodlust>(), 300);
+        }
+
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit) {
+            if (race == Race.Demon && target.life <= 0) player.AddBuff(mod.BuffType<Buffs.Bloodlust>(), 300);
+        }
+
         public override void FrameEffects() {
             if (falling) player.wingFrame = 2;
         }
