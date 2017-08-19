@@ -11,7 +11,7 @@ namespace XRaces.Buffs.Race
         public override void SetDefaults() {
             DisplayName.SetDefault("Zombie");
             Description.SetDefault("Power of decompisition!");
-            Main.debuff[Type] = false;
+            Main.debuff[Type] = true;
             Main.buffNoSave[Type] = false;
             Main.persistentBuff[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
