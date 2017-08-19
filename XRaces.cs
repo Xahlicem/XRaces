@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace XRaces {
     class XRaces : Mod {
@@ -13,7 +14,7 @@ namespace XRaces {
         }
 
         public override void AddRecipeGroups() {
-            RecipeGroup group = new RecipeGroup(() => Lang.misc[37] + " Soul", new int[] {
+            RecipeGroup group = new RecipeGroup(() => Language.GetText("any") + " Soul", new int[] {
                 this.ItemType<Items.Misc.AntSoul>(),
                 this.ItemType<Items.Misc.DemonSoul>(),
                 this.ItemType<Items.Misc.GoblinSoul>(),
