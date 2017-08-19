@@ -69,6 +69,7 @@ namespace XRaces.Items {
                 line = new TooltipLine(mod, "BloodlustMod", "Bloodlust: +" + damage + "% damage");
                 line.isModifier = true;
                 if (damageIndex != -1) tooltips.Insert(damageIndex, line);
+                else if (modIndex != -1) tooltips.Insert(tooltips.Count - 1, line);
                 else tooltips.Add(line);
             }
         }
