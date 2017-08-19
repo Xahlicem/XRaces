@@ -20,5 +20,13 @@ namespace XRaces.Items.Misc {
             item.rare = 0;
             item.consumable = false;
         }
+
+        public override void AddRecipes() {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.requiredTile[0] = TileID.Campfire;
+            recipe.AddRecipeGroup("XRSouls");
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

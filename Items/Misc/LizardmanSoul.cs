@@ -27,7 +27,7 @@ namespace XRaces.Items.Misc {
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(TileID.Campfire);
+            recipe.requiredTile[0] = TileID.Campfire;
             recipe.AddIngredient(mod.ItemType<Items.Misc.SoulVessel>());
             recipe.AddIngredient(ItemID.JungleSpores, 10);
             recipe.AddIngredient(ItemID.GillsPotion);
