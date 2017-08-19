@@ -75,31 +75,8 @@ namespace XRaces {
         }
 
         public override void FrameEffects() {
-            /*if (head != 0)
-                if (head == -1) {
-                    if (player.head <= 0) player.head = mod.GetItem(race.ToString() + "Head").item.headSlot;
-                    else if (player.head == 10 || player.head == 23 || player.head == 12 || player.head == 26 || player.head == 28 || player.head == 51 || player.head == 62 || player.head == 97 || player.head == 113 || player.head == 106 || player.head == 129 || player.head == 133 || player.head == 136 || player.head == 132 || player.head == 178 || player.head == 181 || player.head == 184 || player.head == 190 || player.head == 191 || player.head == 198) player.face = mod.GetItem(race.ToString() + "Head").item.faceSlot;
-                } else if (head != -2) player.head = (head == 93) ? head : mod.GetItem(race.ToString() + "Head").item.headSlot;
-*/
             if (falling) player.wingFrame = 2;
         }
-
-        public static readonly PlayerLayer RaceFace = new PlayerLayer("XRaces", "ModFace", PlayerLayer.Face, delegate(PlayerDrawInfo drawInfo) {
-            if (drawInfo.shadow != 0f) {
-                return;
-            }
-            Player drawPlayer = drawInfo.drawPlayer;
-            Mod mod = ModLoader.GetMod("XRaces");
-            Texture2D texture = mod.GetTexture("Race/" + drawPlayer.GetModPlayer<XRPlayer>().race.ToString() + "Face");
-            int frameSize = texture.Height / 20;
-            int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
-            int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y - 3);
-            Rectangle rect = new Rectangle((drawPlayer.direction == 1) ? drawPlayer.bodyFrame.Left : drawPlayer.bodyFrame.Width, drawPlayer.bodyFrame.Top, drawPlayer.bodyFrame.Width, drawPlayer.bodyFrame.Height);
-            DrawData data = new DrawData(texture, new Vector2(drawX, drawY), rect, Lighting.GetColor((int)((drawInfo.position.X + drawPlayer.width / 2f) / 16f), (int)((drawInfo.position.Y + drawPlayer.height / 2f) / 16f)), 0, new Vector2(texture.Width / 4f, frameSize / 2f), 1f, SpriteEffects.None, 10);
-            data.ignorePlayerRotation = false;
-            data.rotation = drawPlayer.fullRotation;
-            Main.playerDrawData.Add(data);
-        });
 
         public static readonly PlayerLayer RaceFaceAcc = new PlayerLayer("XRaces", "ModFaceAcc", PlayerLayer.FaceAcc, delegate(PlayerDrawInfo drawInfo) {
             if (drawInfo.shadow != 0f) {
