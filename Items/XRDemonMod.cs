@@ -13,6 +13,34 @@ using Terraria.ModLoader.IO;
 namespace XRaces.Items {
     public class XRDemonMod : GlobalItem {
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
+            if (item.type == mod.ItemType<Items.Misc.DemonSoul>()) {
+                int i = 4;
+                TooltipLine l = new TooltipLine(mod, "Demon", "You take damage from water");
+                l.isModifier = true;
+                l.isModifierBad = true;
+                tooltips.Insert(i++, l);
+                l = new TooltipLine(mod, "Demon", "You can go in lava");
+                l.isModifier = true;
+                l.isModifierBad = false;
+                tooltips.Insert(i++, l);
+                l = new TooltipLine(mod, "Demon", "Mana cost changes based on depth");
+                l.isModifier = true;
+                l.isModifierBad = true;
+                tooltips.Insert(i++, l);
+                l = new TooltipLine(mod, "Demon", "+25% magic damage");
+                l.isModifier = true;
+                l.isModifierBad = false;
+                tooltips.Insert(i++, l);
+                l = new TooltipLine(mod, "Demon", "Reduced ranged damage");
+                l.isModifier = true;
+                l.isModifierBad = true;
+                tooltips.Insert(i++, l);
+                l = new TooltipLine(mod, "Demon", "More damage as you kill");
+                l.isModifier = true;
+                l.isModifierBad = false;
+                tooltips.Insert(i++, l);
+            }
+
             XRPlayer player = Main.player[item.owner].GetModPlayer<XRPlayer>();
             if (player.race != Race.Demon) return;
             int damageIndex = -1, manaCostIndex = -1, tooltipIndex = -1, modIndex = -1;
@@ -48,23 +76,23 @@ namespace XRaces.Items {
             if (item.magic) {
                 bool bad = false;
                 if (damageIndex != -1) {
-                    //int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
-                    //if (tooltips[damageIndex].text[0] == '-') damage *= -1;
-                    //damage += 25;
-                    //bad = (damage < 0);
+                    int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
+                    if (tooltips[damageIndex].text[0] == '-') damage *= -1;
+                    damage += 25;
+                    bad = (damage < 0);
 
-                    //tooltips[damageIndex].text = ((!bad) ? "+" : "") + damage + "% damage";
-                    //tooltips[damageIndex].isModifierBad = bad;
-                    //tooltips[damageIndex].isModifier = true;
+                    tooltips[damageIndex].text = ((!bad) ? "+" : "") + damage + "% damage";
+                    tooltips[damageIndex].isModifierBad = bad;
+                    tooltips[damageIndex].isModifier = true;
                 } else {
-                    //line = new TooltipLine(mod, "DemonMagic", "+25% damage");
-                    //line.isModifier = !bad;
-                    //line.isModifierBad = bad;
-                    //tooltips.Insert(++tooltipIndex, line);
+                    line = new TooltipLine(mod, "DemonMagic", "+25% damage");
+                    line.isModifier = !bad;
+                    line.isModifierBad = bad;
+                    tooltips.Insert(++tooltipIndex, line);
                     damageIndex = tooltipIndex;
                 }
 
-                int cost = (int)((0.50f - (player.player.position.Y / Main.bottomWorld)) * 100f);
+                int cost = (int)((0.30f - (player.player.position.Y / Main.bottomWorld) / 2) * 100f);
                 bad = (cost > 0);
                 if (manaCostIndex != -1) {
                     int manaCost = int.Parse(tooltips[manaCostIndex].text.Substring(1, tooltips[manaCostIndex].text.IndexOf("%") - 1));
