@@ -52,6 +52,16 @@ namespace XRaces {
             if (race != Race.Human) player.AddBuff(mod.BuffType(race.ToString()), 10);
         }
 
+        public override void MeleeEffects(Item item, Rectangle hitbox) {
+            /*
+            byte pre = item.prefix;
+            float scale = item.scale;
+            item.CloneDefaults(item.type);
+            item.prefix = pre;
+            if (race == Race.Zombie) item.scale = item.scale * 1.5f;
+            */
+        }
+
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource) {
             if (race == Race.Slime && damageSource.SourceNPCIndex >= 0)
                 if (Main.npc[damageSource.SourceNPCIndex].FullName.Contains("Slime")) {
