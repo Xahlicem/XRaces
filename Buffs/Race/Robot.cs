@@ -37,6 +37,8 @@ namespace XRaces.Buffs.Race
                 player.statMana -= modPlayer.wet ? 5 : 1;
                 if (player.statMana <= 0)
                     player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " needed to charge."), modPlayer.wet ? 25 : 5, 0, false, false, false, 0);
+                if (modPlayer.idle >= 60 && modPlayer.idle < 300) player.statMana += 1;
+                else if (modPlayer.idle >= 300) player.statMana += 2;
             }
             player.manaRegenCount = -10;
             player.manaRegenDelay = 100;

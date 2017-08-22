@@ -20,6 +20,7 @@ namespace XRaces {
         public Color cSkin = default(Color);
         public bool wet = false;
         public bool falling = false;
+        public int idle = 0;
 
         public override TagCompound Save() {
             return new TagCompound { { "xrRace", (byte) race }, { "xrHair", hair }, { "xrCHair", cHair }, { "xrCEye", cEye }, { "xrCSkin", cSkin }
@@ -86,6 +87,8 @@ namespace XRaces {
 
         public override void ProcessTriggers(TriggersSet triggersSet) {
             falling = (!player.justJumped && triggersSet.Jump && player.velocity.Y >= 0.01f);
+            if (!triggersSet.Down && !triggersSet.Up && !triggersSet.Left && !triggersSet.Right && !triggersSet.Grapple && !triggersSet.Jump && !triggersSet.Throw && !triggersSet.MouseLeft && !triggersSet.MouseRight) idle++;
+            else idle = 0;
         }
 
         public void ChangeRace(Race r, bool force = false) {
