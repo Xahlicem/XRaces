@@ -136,7 +136,7 @@ namespace XRaces {
                 case Race.Zombie:
                     player.hair = hair;
                     player.hairColor = Color.DarkGray;
-                    player.skinColor = new Color(205, 255, 150);
+                    player.skinColor = new Color(215, 225, 135);
                     player.eyeColor = Color.Red;
                     break;
                 case Race.Goblin:
