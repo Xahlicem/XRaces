@@ -26,7 +26,7 @@ namespace XRaces.Items {
             TooltipLine line;
 
             if (item.ranged) {
-                bool bad = false;
+                bool bad = true;
                 if (damageIndex != -1) {
                     int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
                     if (tooltips[damageIndex].text[0] == '-') damage *= -1;
@@ -37,8 +37,8 @@ namespace XRaces.Items {
                     tooltips[damageIndex].isModifierBad = bad;
                     tooltips[damageIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "DemonMagic", "+25% damage");
-                    line.isModifier = !bad;
+                    line = new TooltipLine(mod, "DemonMagic", "-25% damage");
+                    line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(++tooltipIndex, line);
                     damageIndex = tooltipIndex;

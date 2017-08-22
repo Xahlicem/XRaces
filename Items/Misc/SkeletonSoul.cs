@@ -21,7 +21,7 @@ namespace XRaces.Items.Misc {
         }
 
         public override bool UseItem(Player player) {
-            player.GetModPlayer<XRPlayer>().ChangeRace(XRPlayer.Race.Skeleton);
+            player.GetModPlayer<XRPlayer>().ChangeRace(Race.Skeleton);
             return true;
         }
 

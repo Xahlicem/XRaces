@@ -21,7 +21,7 @@ namespace XRaces.Items.Misc {
         }
 
         public override bool UseItem(Player player) {
-            player.GetModPlayer<XRPlayer>().ChangeRace(XRPlayer.Race.Goblin);
+            player.GetModPlayer<XRPlayer>().ChangeRace(Race.Goblin);
             return true;
         }
 

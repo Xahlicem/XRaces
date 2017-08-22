@@ -13,22 +13,8 @@ using Terraria.ModLoader.IO;
 namespace XRaces {
 
     public class XRPlayer : ModPlayer {
-
-        public enum Race : byte {
-            Human,
-            Demon,
-            Ant,
-            Slime,
-            Zombie,
-            Goblin,
-            Skeleton,
-            Lizardman,
-            Shade,
-            Robot
-        }
         public Race race = Race.Human;
         public int hair = -1;
-        public int headStyle = 0;
         public Color cHair = default(Color);
         public Color cEye = default(Color);
         public Color cSkin = default(Color);
@@ -36,13 +22,12 @@ namespace XRaces {
         public bool falling = false;
 
         public override TagCompound Save() {
-            return new TagCompound { { "xrRace", (byte) race }, { "xrHeadStyle", headStyle }, { "xrHair", hair }, { "xrCHair", cHair }, { "xrCEye", cEye }, { "xrCSkin", cSkin }
+            return new TagCompound { { "xrRace", (byte) race }, { "xrHair", hair }, { "xrCHair", cHair }, { "xrCEye", cEye }, { "xrCSkin", cSkin }
             };
         }
 
         public override void Load(TagCompound tag) {
             race = (Race) tag.GetByte("xrRace");
-            headStyle = tag.GetInt("xrHeadStyle");
             hair = tag.GetInt("xrHair");
             cHair = tag.Get<Color>("xrCHair");
             cEye = tag.Get<Color>("xrCEye");
@@ -86,32 +71,10 @@ namespace XRaces {
             if (falling) player.wingFrame = 2;
         }
 
-        public static readonly PlayerLayer RaceFaceAcc = new PlayerLayer("XRaces", "ModFaceAcc", PlayerLayer.FaceAcc, delegate(PlayerDrawInfo drawInfo) {
-            if (drawInfo.shadow != 0f) {
-                return;
-            }
-            Player drawPlayer = drawInfo.drawPlayer;
-            Mod mod = ModLoader.GetMod("XRaces");
-            Texture2D texture = mod.GetTexture("Race/" + drawPlayer.GetModPlayer<XRPlayer>().race.ToString() + "Face");
-            int frameSize = texture.Height / 20;
-            int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
-            int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y - 3);
-            Rectangle rect = new Rectangle((drawPlayer.direction == 1) ? drawPlayer.bodyFrame.Left : drawPlayer.bodyFrame.Width, drawPlayer.bodyFrame.Top, drawPlayer.bodyFrame.Width, drawPlayer.bodyFrame.Height);
-            DrawData data = new DrawData(texture, new Vector2(drawX, drawY), rect, Lighting.GetColor((int)((drawInfo.position.X + drawPlayer.width / 2f) / 16f), (int)((drawInfo.position.Y + drawPlayer.height / 2f) / 16f)), 0, new Vector2(texture.Width / 4f, frameSize / 2f), 1f, SpriteEffects.None, 0);
-            data.ignorePlayerRotation = false;
-            data.rotation = drawPlayer.fullRotation;
-            Main.playerDrawData.Add(data);
-        });
-
         public override void ModifyDrawLayers(List<PlayerLayer> layers) {
-            if (headStyle == 0) return;
-            int i;
-            for (i = 0; i < layers.Count; i++)
-                if (layers[i].Name.Contains("Face")) {
-                    layers[i].visible = false;
-                    break;
-                }
-            if (!player.dead) layers.Insert(i + 1, RaceFaceAcc);
+            Main.playerTextures[0, 0] = XRaces.RaceTextures[(int) race, 0];
+            Main.playerTextures[0, 1] = XRaces.RaceTextures[(int) race, 1];
+            Main.playerTextures[0, 2] = XRaces.RaceTextures[(int) race, 2];
         }
 
         public override void SetupStartInventory(IList<Item> items) {
@@ -152,67 +115,57 @@ namespace XRaces {
                     player.hairColor = cHair;
                     player.eyeColor = cEye;
                     player.skinColor = cSkin;
-                    headStyle = 0;
                     break;
                 case Race.Demon:
                     player.hair = 15;
                     player.hairColor = Color.DarkGray;
                     player.skinColor = new Color(140, 65, 65);
                     player.eyeColor = Color.Red;
-                    headStyle = 1;
                     break;
                 case Race.Ant:
                     player.hair = 15;
                     player.skinColor = new Color(75, 35, 15);
-                    player.eyeColor = Color.Black;
-                    headStyle = 1;
+                    player.eyeColor = Color.White;
                     break;
                 case Race.Slime:
                     player.hair = hair;
                     player.hairColor = new Color(0, 50, 250, 50);
                     player.skinColor = new Color(100, 150, 255);
                     player.eyeColor = new Color(0, 50, 250, 50);
-                    headStyle = 0;
                     break;
                 case Race.Zombie:
                     player.hair = hair;
                     player.hairColor = Color.DarkGray;
                     player.skinColor = new Color(205, 255, 150);
                     player.eyeColor = Color.Red;
-                    headStyle = 0;
                     break;
                 case Race.Goblin:
                     player.hair = hair;
                     player.hairColor = cHair;
                     player.skinColor = new Color(95, 150, 160);
                     player.eyeColor = Color.Red;
-                    headStyle = 1;
                     break;
                 case Race.Skeleton:
                     player.hair = 15;
-                    player.skinColor = new Color(155, 155, 115);
-                    player.eyeColor = Color.White;
-                    headStyle = 1;
+                    player.skinColor = new Color(135, 135, 100);
+                    player.eyeColor = Color.Red;
                     break;
                 case Race.Lizardman:
                     player.hair = 15;
                     player.hairColor = Color.DarkGray;
                     player.skinColor = new Color(75, 135, 50);
                     player.eyeColor = Color.Red;
-                    headStyle = 1;
                     break;
                 case Race.Shade:
                     player.hair = 15;
                     player.skinColor = Color.Black;
-                    player.eyeColor = Color.Black;
-                    headStyle = 1;
+                    player.eyeColor = Color.White;
                     break;
                 case Race.Robot:
                     player.hair = 15;
                     player.hairColor = Color.DarkGray;
                     player.skinColor = new Color(120, 120, 120);
-                    player.eyeColor = Color.Green;
-                    headStyle = 1;
+                    player.eyeColor = Color.LightGreen;
                     break;
             }
         }

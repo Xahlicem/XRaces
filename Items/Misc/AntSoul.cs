@@ -21,7 +21,7 @@ namespace XRaces.Items.Misc {
         }
 
         public override bool UseItem(Player player) {
-            player.GetModPlayer<XRPlayer>().ChangeRace(XRPlayer.Race.Ant);
+            player.GetModPlayer<XRPlayer>().ChangeRace(Race.Ant);
             return true;
         }
 
