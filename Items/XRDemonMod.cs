@@ -13,6 +13,8 @@ using Terraria.ModLoader.IO;
 namespace XRaces.Items {
     public class XRDemonMod : GlobalItem {
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
+            XRPlayer player = Main.player[item.owner].GetModPlayer<XRPlayer>();
+            if (player.race != Race.Demon) return;
             int damageIndex = -1, manaCostIndex = -1, tooltipIndex = -1, modIndex = -1;
             for (int i = 0; i < tooltips.Count; i++) {
                 if (tooltips[i].Name.Contains("Tooltip")) tooltipIndex = i;
@@ -21,16 +23,14 @@ namespace XRaces.Items {
                 if (tooltips[i].mod.Equals("Terraria")) modIndex = i;
             }
             if (tooltipIndex == -1) tooltipIndex = tooltips.Count - 1;
-
-            XRPlayer player = Main.player[item.owner].GetModPlayer<XRPlayer>();
             TooltipLine line;
 
-            if (player.race == XRPlayer.Race.Demon && item.magic) {
+            if (item.ranged) {
                 bool bad = false;
                 if (damageIndex != -1) {
                     int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
                     if (tooltips[damageIndex].text[0] == '-') damage *= -1;
-                    damage += 25;
+                    damage -= 25;
                     bad = (damage < 0);
 
                     tooltips[damageIndex].text = ((!bad) ? "+" : "") + damage + "% damage";
@@ -41,6 +41,26 @@ namespace XRaces.Items {
                     line.isModifier = !bad;
                     line.isModifierBad = bad;
                     tooltips.Insert(++tooltipIndex, line);
+                    damageIndex = tooltipIndex;
+                }
+            }
+
+            if (item.magic) {
+                bool bad = false;
+                if (damageIndex != -1) {
+                    //int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
+                    //if (tooltips[damageIndex].text[0] == '-') damage *= -1;
+                    //damage += 25;
+                    //bad = (damage < 0);
+
+                    //tooltips[damageIndex].text = ((!bad) ? "+" : "") + damage + "% damage";
+                    //tooltips[damageIndex].isModifierBad = bad;
+                    //tooltips[damageIndex].isModifier = true;
+                } else {
+                    //line = new TooltipLine(mod, "DemonMagic", "+25% damage");
+                    //line.isModifier = !bad;
+                    //line.isModifierBad = bad;
+                    //tooltips.Insert(++tooltipIndex, line);
                     damageIndex = tooltipIndex;
                 }
 
