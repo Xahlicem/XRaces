@@ -21,8 +21,8 @@ namespace XRaces.Buffs.Race
         public override void Update(Player player, ref int buffIndex) {
             XRPlayer modPlayer = player.GetModPlayer<XRPlayer>();
             player.rangedDamage *= 0.75f;
-            //player.magicDamage *= 1.25f;
-            player.manaCost *= 1.50f - (player.position.Y / Main.bottomWorld);
+            player.magicDamage *= 1.25f;
+            player.manaCost *= 1.3f - (player.position.Y / Main.bottomWorld) / 2;
 
             player.buffImmune[BuffID.OnFire] = true;
             player.lavaRose = true;
