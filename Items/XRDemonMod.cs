@@ -85,8 +85,8 @@ namespace XRaces.Items {
                     tooltips[damageIndex].isModifierBad = bad;
                     tooltips[damageIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "DemonMagic", "+25% damage");
-                    line.isModifier = !bad;
+                    line = new TooltipLine(mod, "Demon", "+25% damage");
+                    line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(++tooltipIndex, line);
                     damageIndex = tooltipIndex;
@@ -104,7 +104,7 @@ namespace XRaces.Items {
                     tooltips[manaCostIndex].isModifierBad = bad;
                     tooltips[manaCostIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "DemonMagic", ((bad) ? "+" : "") + cost + "% mana cost");
+                    line = new TooltipLine(mod, "Demon", ((bad) ? "+" : "") + cost + "% mana cost");
                     line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(damageIndex + 1, line);
@@ -114,7 +114,7 @@ namespace XRaces.Items {
             int index = player.player.FindBuffIndex(mod.BuffType<Buffs.Bloodlust>());
             if (index != -1 && item.damage >= 1) {
                 int damage = (int)((player.player.buffTime[index] / 120f) * 0.01f * 100f);
-                line = new TooltipLine(mod, "BloodlustMod", "Bloodlust: +" + damage + "% damage");
+                line = new TooltipLine(mod, "Bloodlust", "Bloodlust: +" + damage + "% damage");
                 line.isModifier = true;
                 if (damageIndex != -1) tooltips.Insert(damageIndex, line);
                 else if (modIndex != -1) tooltips.Insert(tooltips.Count - 1, line);
