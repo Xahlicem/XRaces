@@ -54,7 +54,7 @@ namespace XRaces {
         }
 
         public override void PreUpdate() {
-            manaMaxMul = ((float)player.statMana + 1f) / (float)player.statManaMax2;
+            manaMaxMul = ((float) player.statMana + 1f) / (float) player.statManaMax2;
             if (manaMaxMul > 1f) manaMaxMul = 1;
         }
 
@@ -143,7 +143,7 @@ namespace XRaces {
         }
 
         public void ChangeRace(Race r, bool force = false) {
-            if (race == r) {
+            if (race == r && !force) {
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " didn't quite understand why!"), 10000, 0);
                 return;
             }
