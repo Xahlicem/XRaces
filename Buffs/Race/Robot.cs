@@ -22,14 +22,15 @@ namespace XRaces.Buffs.Race
             XRPlayer modPlayer = player.GetModPlayer<XRPlayer>();
             player.ignoreWater = true;
             player.breath = 100000;
-            float mul = (0.75f + (((float)(player.statMana + 1) / (float) player.statManaMax2) * 0.50f));
-            player.maxRunSpeed *= mul;
-            player.moveSpeed *= mul;
-            player.accRunSpeed = (mul < 1) ? 0 : player.accRunSpeed * mul;
-            player.rangedDamage *= mul;
-            player.meleeDamage *= mul;
-            player.thrownDamage *= mul;
-            player.meleeSpeed *= (0.50f + (((float)(player.statMana + 1) / (float) player.statManaMax2) * 0.75f));
+            float damageMul = (0.75f + (modPlayer.manaMaxMul * 0.50f));
+            float speedMul = (0.50f + (modPlayer.manaMaxMul * 0.75f));
+            player.maxRunSpeed *= damageMul;
+            player.moveSpeed *= damageMul;
+            player.accRunSpeed = (damageMul < 1) ? 0 : player.accRunSpeed * damageMul;
+            player.rangedDamage *= damageMul;
+            player.meleeDamage *= damageMul;
+            player.thrownDamage *= damageMul;
+            player.meleeSpeed *= speedMul;
             player.minionDamage *= 0.50f;
             player.thrownVelocity *= 1.5f;
 

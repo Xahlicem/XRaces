@@ -23,6 +23,8 @@ namespace XRaces.Buffs.Race
             player.ignoreWater = true;
             player.breath = 100000;
             player.lifeRegenCount = 0;
+
+            player.statDefense -= 5;
         }
     }
 }

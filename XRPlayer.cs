@@ -21,6 +21,14 @@ namespace XRaces {
         public bool wet = false;
         public bool falling = false;
         public int idle = 0;
+        public float manaMaxMul = 1f;
+
+        public override void SetupStartInventory(IList<Item> items) {
+            Item item = new Item();
+            item.SetDefaults(mod.ItemType<Items.Misc.SoulVessel>());
+            item.stack = 1;
+            items.Add(item);
+        }
 
         public override TagCompound Save() {
             return new TagCompound { { "xrRace", (byte) race }, { "xrHair", hair }, { "xrCHair", cHair }, { "xrCEye", cEye }, { "xrCSkin", cSkin }
@@ -41,6 +49,13 @@ namespace XRaces {
 
         public override void UpdateDead() {
             wet = false;
+            falling = false;
+            idle = 0;
+        }
+
+        public override void PreUpdate() {
+            manaMaxMul = ((float)player.statMana + 1f) / (float)player.statManaMax2;
+            if (manaMaxMul > 1f) manaMaxMul = 1;
         }
 
         public override void PreUpdateBuffs() {
@@ -83,22 +98,48 @@ namespace XRaces {
         }
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers) {
-            Main.playerTextures[0, 0] = XRaces.RaceTextures[(int) race, 0];
-            Main.playerTextures[0, 1] = XRaces.RaceTextures[(int) race, 1];
-            Main.playerTextures[0, 2] = XRaces.RaceTextures[(int) race, 2];
-        }
-
-        public override void SetupStartInventory(IList<Item> items) {
-            Item item = new Item();
-            item.SetDefaults(mod.ItemType<Items.Misc.SoulVessel>());
-            item.stack = 1;
-            items.Add(item);
+            Main.playerTextures[0, 0] = XRaces.RaceTextures[(int) this.race, 0];
+            Main.playerTextures[0, 1] = XRaces.RaceTextures[(int) this.race, 1];
+            Main.playerTextures[0, 2] = XRaces.RaceTextures[(int) this.race, 2];
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet) {
             falling = (!player.justJumped && triggersSet.Jump && player.velocity.Y >= 0.01f);
             if (!triggersSet.Down && !triggersSet.Up && !triggersSet.Left && !triggersSet.Right && !triggersSet.Grapple && !triggersSet.Jump && !triggersSet.Throw && !triggersSet.MouseLeft && !triggersSet.MouseRight) idle++;
             else idle = 0;
+        }
+
+        public override void clientClone(ModPlayer clone) {
+            base.clientClone(clone);
+            var myclone = (XRPlayer) clone;
+            myclone.race = this.race;
+            myclone.wet = this.wet;
+            myclone.falling = this.falling;
+            myclone.manaMaxMul = this.manaMaxMul;
+        }
+
+        public override void PostUpdate() {
+            if (Main.netMode == NetmodeID.MultiplayerClient && player.Equals(Main.LocalPlayer)) {
+                GetPacket((byte) XRModMessageType.FromClient).Send();
+            }
+        }
+
+        public ModPacket GetPacket(byte packetType) {
+            ModPacket packet = this.mod.GetPacket();
+
+            packet.Write((byte) packetType);
+            packet.Write(this.player.whoAmI);
+            packet.Write((byte) this.race);
+            packet.Write(player.hair);
+            packet.WriteRGB(player.hairColor);
+            packet.WriteRGB(player.eyeColor);
+            packet.WriteRGB(player.skinColor);
+            packet.Write(wet);
+            packet.Write(falling);
+            packet.Write(idle);
+            packet.Write(manaMaxMul);
+
+            return packet;
         }
 
         public void ChangeRace(Race r, bool force = false) {

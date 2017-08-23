@@ -20,23 +20,23 @@ namespace XRaces.Buffs.Race
 
         public override void Update(Player player, ref int buffIndex) {
             XRPlayer modPlayer = player.GetModPlayer<XRPlayer>();
-            player.thrownVelocity *= 0.5f;
+            player.statDefense += 5;
             player.statLifeMax2 = (int)(player.statLifeMax2 * 1.2);
             player.lifeRegenTime = 2;
             player.lifeRegen += player.statLifeMax2 / 50;
-            player.breath -= 3;
 
             if (Main.dayTime || modPlayer.wet) {
                 player.moveSpeed *= 1.25f;
                 player.maxRunSpeed *= 1.25f;
                 player.accRunSpeed *= 1.25f;
-            } else {
-                player.moveSpeed *= 0.75f;
-                player.maxRunSpeed *= 0.75f;
-                player.accRunSpeed = 0;
             }
 
             player.detectCreature = true;
+            player.accFlipper = true;
+
+            player.breath -= 3;
+            if (Main.time % 6 == 0) player.breath += 1;
+
             if (!modPlayer.wet && player.FindBuffIndex(BuffID.Gills) == -1 && player.armor[0].type != ItemID.FishBowl) {
                 player.breathCD = 0;
                 if (Main.time % 5 == 0) player.breath -= 1;

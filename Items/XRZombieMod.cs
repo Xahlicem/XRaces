@@ -15,31 +15,27 @@ namespace XRaces.Items {
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             if (item.type == mod.ItemType<Items.Misc.ZombieSoul>()) {
                 int i = 4;
-                TooltipLine l = new TooltipLine(mod, "Robot", "You use mana as energy");
+                TooltipLine l = new TooltipLine(mod, "Zombie", "You don't need to breathe or swim");
                 l.isModifier = true;
                 l.isModifierBad = false;
                 tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Moving/Attacking drains energy");
+                l = new TooltipLine(mod, "Zombie", "You walk and attack slower");
                 l.isModifier = true;
                 l.isModifierBad = true;
                 tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Standing still recharges energy");
+                l = new TooltipLine(mod, "Zombie", "You are a heavy hitter");
                 l.isModifier = true;
                 l.isModifierBad = false;
                 tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Water short-circuits you");
+                l = new TooltipLine(mod, "Zombie", "You have low life");
                 l.isModifier = true;
                 l.isModifierBad = true;
                 tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "More energy = more damage/speed");
+                l = new TooltipLine(mod, "Zombie", "You regenerate life quickly");
                 l.isModifier = true;
                 l.isModifierBad = false;
                 tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Less energy = less damage/speed");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Reduced summon damage");
+                l = new TooltipLine(mod, "Zombie", "You deal less ranged and thrown damage");
                 l.isModifier = true;
                 l.isModifierBad = true;
                 tooltips.Insert(i++, l);
@@ -57,20 +53,38 @@ namespace XRaces.Items {
             }
             if (tooltipIndex == -1) tooltipIndex = tooltips.Count - 1;
             TooltipLine line;
-            /*
-            if (item.summon) {
+            
+            if (item.ranged) {
                 bool bad = true;
                 if (damageIndex != -1) {
                     int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
                     if (tooltips[damageIndex].text[0] == '-') damage *= -1;
-                    damage -= 50;
+                    damage -= 75;
                     bad = (damage < 0);
 
                     tooltips[damageIndex].text = ((!bad) ? "+" : "") + damage + "% damage";
                     tooltips[damageIndex].isModifierBad = bad;
                     tooltips[damageIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "Robot", "-50% damage");
+                    line = new TooltipLine(mod, "Zombie", "-50% damage");
+                    line.isModifier = true;
+                    line.isModifierBad = bad;
+                    tooltips.Insert(++tooltipIndex, line);
+                    damageIndex = tooltipIndex;
+                }
+            } else if (item.thrown) {
+                bool bad = true;
+                if (damageIndex != -1) {
+                    int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
+                    if (tooltips[damageIndex].text[0] == '-') damage *= -1;
+                    damage -= 25;
+                    bad = (damage < 0);
+
+                    tooltips[damageIndex].text = ((!bad) ? "+" : "") + damage + "% damage";
+                    tooltips[damageIndex].isModifierBad = bad;
+                    tooltips[damageIndex].isModifier = true;
+                } else {
+                    line = new TooltipLine(mod, "Zombie", "-50% damage");
                     line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(++tooltipIndex, line);
@@ -78,45 +92,42 @@ namespace XRaces.Items {
                 }
             }
 
-            if (!item.magic && !item.summon && item.damage > 0) {
-                int dam = (int)(((0.75f + (((float)(player.player.statMana + 1) / (float) player.player.statManaMax2) * 0.50f)) - 1) * 100f);
-                bool bad = dam < 0;
+            if (item.melee && item.damage > 0) {
+                bool bad = false;
                 if (damageIndex != -1) {
                     int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
                     if (tooltips[damageIndex].text[0] == '-') damage *= -1;
-                    damage += dam;
+                    damage += 75;
                     bad = (damage < 0);
 
                     tooltips[damageIndex].text = ((!bad) ? "+" : "") + damage + "% damage";
                     tooltips[damageIndex].isModifierBad = bad;
                     tooltips[damageIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "Robot", ((!bad) ? "+" : "") + dam + "% damage");
+                    line = new TooltipLine(mod, "Zombie", ((!bad) ? "+" : "") + 75 + "% damage");
                     line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(++tooltipIndex, line);
                     damageIndex = tooltipIndex;
                 }
 
-                int speed = (int)((0.50f + (((float)(player.player.statMana + 1) / (float) player.player.statManaMax2) * 0.75f) - 1) / 1f * 100f);
-                bad = (speed < 0);
-                if (item.ranged) return;
+                bad = true;
                 if (speedIndex != -1) {
-                    int manaCost = int.Parse(tooltips[speedIndex].text.Substring(1, tooltips[speedIndex].text.IndexOf("%") - 1));
-                    if (tooltips[speedIndex].text[0] == '-') manaCost *= -1;
-                    manaCost += speed;
-                    bad = (manaCost < 0);
+                    int speed = int.Parse(tooltips[speedIndex].text.Substring(1, tooltips[speedIndex].text.IndexOf("%") - 1));
+                    if (tooltips[speedIndex].text[0] == '-') speed *= -1;
+                    speed += -25;
+                    bad = (speed < 0);
 
-                    tooltips[speedIndex].text = ((!bad) ? "+" : "") + manaCost + "% speed";
+                    tooltips[speedIndex].text = ((!bad) ? "+" : "") + speed + "% speed";
                     tooltips[speedIndex].isModifierBad = bad;
                     tooltips[speedIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "Robot", ((!bad) ? "+" : "") + speed + "% speed");
+                    line = new TooltipLine(mod, "Zombie", ((!bad) ? "+" : "-") + 25 + "% speed");
                     line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(damageIndex + 1, line);
                 }
-            }*/
+            }
         }
     }
 }
