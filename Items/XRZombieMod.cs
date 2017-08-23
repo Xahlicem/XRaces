@@ -66,7 +66,7 @@ namespace XRaces.Items {
                     tooltips[damageIndex].isModifierBad = bad;
                     tooltips[damageIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "Robot", "-50% damage");
+                    line = new TooltipLine(mod, "Zombie", "-50% damage");
                     line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(++tooltipIndex, line);
@@ -84,7 +84,7 @@ namespace XRaces.Items {
                     tooltips[damageIndex].isModifierBad = bad;
                     tooltips[damageIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "Robot", "-50% damage");
+                    line = new TooltipLine(mod, "Zombie", "-50% damage");
                     line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(++tooltipIndex, line);
@@ -97,14 +97,14 @@ namespace XRaces.Items {
                 if (damageIndex != -1) {
                     int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
                     if (tooltips[damageIndex].text[0] == '-') damage *= -1;
-                    damage += 50;
+                    damage += 75;
                     bad = (damage < 0);
 
                     tooltips[damageIndex].text = ((!bad) ? "+" : "") + damage + "% damage";
                     tooltips[damageIndex].isModifierBad = bad;
                     tooltips[damageIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "Robot", ((!bad) ? "+" : "") + 50 + "% damage");
+                    line = new TooltipLine(mod, "Zombie", ((!bad) ? "+" : "") + 75 + "% damage");
                     line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(++tooltipIndex, line);
@@ -115,14 +115,14 @@ namespace XRaces.Items {
                 if (speedIndex != -1) {
                     int speed = int.Parse(tooltips[speedIndex].text.Substring(1, tooltips[speedIndex].text.IndexOf("%") - 1));
                     if (tooltips[speedIndex].text[0] == '-') speed *= -1;
-                    speed += -50;
+                    speed += -25;
                     bad = (speed < 0);
 
                     tooltips[speedIndex].text = ((!bad) ? "+" : "") + speed + "% speed";
                     tooltips[speedIndex].isModifierBad = bad;
                     tooltips[speedIndex].isModifier = true;
                 } else {
-                    line = new TooltipLine(mod, "Robot", ((!bad) ? "+" : "-") + 50 + "% speed");
+                    line = new TooltipLine(mod, "Zombie", ((!bad) ? "+" : "-") + 25 + "% speed");
                     line.isModifier = true;
                     line.isModifierBad = bad;
                     tooltips.Insert(damageIndex + 1, line);
