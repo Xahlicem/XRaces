@@ -22,6 +22,13 @@ namespace XRaces {
         public bool falling = false;
         public int idle = 0;
 
+        public override void SetupStartInventory(IList<Item> items) {
+            Item item = new Item();
+            item.SetDefaults(mod.ItemType<Items.Misc.SoulVessel>());
+            item.stack = 1;
+            items.Add(item);
+        }
+
         public override TagCompound Save() {
             return new TagCompound { { "xrRace", (byte) race }, { "xrHair", hair }, { "xrCHair", cHair }, { "xrCEye", cEye }, { "xrCSkin", cSkin }
             };
@@ -88,13 +95,6 @@ namespace XRaces {
             Main.playerTextures[0, 0] = XRaces.RaceTextures[(int) this.race, 0];
             Main.playerTextures[0, 1] = XRaces.RaceTextures[(int) this.race, 1];
             Main.playerTextures[0, 2] = XRaces.RaceTextures[(int) this.race, 2];
-        }
-
-        public override void SetupStartInventory(IList<Item> items) {
-            Item item = new Item();
-            item.SetDefaults(mod.ItemType<Items.Misc.SoulVessel>());
-            item.stack = 1;
-            items.Add(item);
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet) {
