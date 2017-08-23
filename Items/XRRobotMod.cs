@@ -79,7 +79,7 @@ namespace XRaces.Items {
             }
 
             if (!item.magic && !item.summon && item.damage > 0) {
-                int dam = (int)(((0.75f + (((float)(player.player.statMana + 1) / (float) player.player.statManaMax2) * 0.50f)) - 1) * 100f);
+                int dam = (int)(((0.75f + (player.manaMaxMul * 0.50f)) - 1) * 100f);
                 bool bad = dam < 0;
                 if (damageIndex != -1) {
                     int damage = int.Parse(tooltips[damageIndex].text.Substring(1, tooltips[damageIndex].text.IndexOf("%") - 1));
@@ -100,7 +100,7 @@ namespace XRaces.Items {
                 }
 
                 if (item.ranged) return;
-                int speed = (int)((0.50f + (((float)(player.player.statMana + 1) / (float) player.player.statManaMax2) * 0.75f) - 1) / 1f * 100f);
+                int speed = (int)((0.50f + (player.manaMaxMul * 0.75f) - 1) / 1f * 100f);
                 bad = (speed < 0);
                 if (speedIndex != -1) {
                     int manaCost = int.Parse(tooltips[speedIndex].text.Substring(1, tooltips[speedIndex].text.IndexOf("%") - 1));

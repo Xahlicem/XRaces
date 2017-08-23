@@ -72,6 +72,7 @@ namespace XRaces {
                         modPlayer.wet = reader.ReadBoolean();
                         modPlayer.falling = reader.ReadBoolean();
                         modPlayer.idle = reader.ReadInt32();
+                        modPlayer.manaMaxMul = reader.ReadSingle();
 
                         modPlayer.GetPacket((byte) XRModMessageType.FromServer).Send();
                         //NetMessage.BroadcastChatMessage(Terraria.Localization.NetworkText.FromLiteral(player.name + " " + race.ToString()), Microsoft.Xna.Framework.Color.White);
@@ -89,6 +90,7 @@ namespace XRaces {
                         modPlayer.wet = reader.ReadBoolean();
                         modPlayer.falling = reader.ReadBoolean();
                         modPlayer.idle = reader.ReadInt32();
+                        modPlayer.manaMaxMul = reader.ReadSingle();
                     }
                     break;
 

@@ -21,6 +21,7 @@ namespace XRaces {
         public bool wet = false;
         public bool falling = false;
         public int idle = 0;
+        public float manaMaxMul = 1f;
 
         public override void SetupStartInventory(IList<Item> items) {
             Item item = new Item();
@@ -50,6 +51,11 @@ namespace XRaces {
             wet = false;
             falling = false;
             idle = 0;
+        }
+
+        public override void PreUpdate() {
+            manaMaxMul = ((float)player.statMana + 1f) / (float)player.statManaMax2;
+            if (manaMaxMul > 1f) manaMaxMul = 1;
         }
 
         public override void PreUpdateBuffs() {
@@ -109,6 +115,7 @@ namespace XRaces {
             myclone.race = this.race;
             myclone.wet = this.wet;
             myclone.falling = this.falling;
+            myclone.manaMaxMul = this.manaMaxMul;
         }
 
         public override void PostUpdate() {
@@ -130,6 +137,7 @@ namespace XRaces {
             packet.Write(wet);
             packet.Write(falling);
             packet.Write(idle);
+            packet.Write(manaMaxMul);
 
             return packet;
         }
