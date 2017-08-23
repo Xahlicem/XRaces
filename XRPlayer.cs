@@ -83,9 +83,9 @@ namespace XRaces {
         }
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers) {
-            Main.playerTextures[0, 0] = XRaces.RaceTextures[(int) race, 0];
-            Main.playerTextures[0, 1] = XRaces.RaceTextures[(int) race, 1];
-            Main.playerTextures[0, 2] = XRaces.RaceTextures[(int) race, 2];
+            Main.playerTextures[0, 0] = XRaces.RaceTextures[(int) this.race, 0];
+            Main.playerTextures[0, 1] = XRaces.RaceTextures[(int) this.race, 1];
+            Main.playerTextures[0, 2] = XRaces.RaceTextures[(int) this.race, 2];
         }
 
         public override void SetupStartInventory(IList<Item> items) {
@@ -99,6 +99,37 @@ namespace XRaces {
             falling = (!player.justJumped && triggersSet.Jump && player.velocity.Y >= 0.01f);
             if (!triggersSet.Down && !triggersSet.Up && !triggersSet.Left && !triggersSet.Right && !triggersSet.Grapple && !triggersSet.Jump && !triggersSet.Throw && !triggersSet.MouseLeft && !triggersSet.MouseRight) idle++;
             else idle = 0;
+        }
+
+        public override void clientClone(ModPlayer clone) {
+            //Main.NewText(((XRPlayer) clientClone).race.ToString() + " CloneBefore");
+			base.clientClone( clone );
+			var myclone = (XRPlayer)clone;
+            myclone.race = this.race;
+            //Main.NewText(((XRPlayer) clientClone).race.ToString() + " CloneAfter");
+        }
+
+        public override void SendClientChanges(ModPlayer clientPlayer) {
+            //Main.NewText(((XRPlayer) clientPlayer).race.ToString() + " Player");
+        }
+
+        public override void PostUpdate() {
+            if (Main.netMode == NetmodeID.MultiplayerClient && player.Equals(Main.LocalPlayer)) {
+                ModPacket packet = this.mod.GetPacket();
+
+                packet.Write((byte) XRModMessageType.Race);
+                packet.Write(this.player.whoAmI);
+                packet.Write((byte) this.race);
+                packet.Write(hair);
+                packet.WriteRGB(cHair);
+                packet.WriteRGB(cEye);
+                packet.WriteRGB(cSkin);
+                packet.Write(wet);
+                packet.Write(falling);
+                packet.Write(idle);
+
+                packet.Send();
+            }
         }
 
         public void ChangeRace(Race r, bool force = false) {

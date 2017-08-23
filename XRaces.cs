@@ -49,6 +49,38 @@ namespace XRaces {
             });
             RecipeGroup.RegisterGroup("XRSouls", group);
         }
+        public override void HandlePacket(System.IO.BinaryReader reader, int whoAmI) {
+            XRModMessageType msgType = (XRModMessageType) reader.ReadByte();
+
+            switch (msgType) {
+                case XRModMessageType.Race:
+                    Player player = Main.player[reader.ReadInt32()];
+                    XRPlayer modPlayer = player.GetModPlayer<XRPlayer>();
+                    if (!player.Equals(Main.LocalPlayer) || Main.netMode == NetmodeID.Server) {
+                        Race race = (Race) reader.ReadByte();
+                        modPlayer.race = race;
+                        modPlayer.hair = reader.ReadInt32();
+                        modPlayer.cHair = reader.ReadRGB();
+                        modPlayer.cEye = reader.ReadRGB();
+                        modPlayer.cSkin = reader.ReadRGB();
+                        modPlayer.wet = reader.ReadBoolean();
+                        modPlayer.falling = reader.ReadBoolean();
+                        modPlayer.idle = reader.ReadInt32();
+                        //NetMessage.BroadcastChatMessage(Terraria.Localization.NetworkText.FromLiteral(player.name + " " + race.ToString()), Microsoft.Xna.Framework.Color.White);
+                    }
+                    break;
+                default:
+                    ErrorLogger.Log("ExampleMod: Unknown Message type: " + msgType);
+                    break;
+            }
+        }
+    }
+
+    enum XRModMessageType : byte {
+        Race,
+        VolcanicRubbleMultiplayerFix,
+        PuritySpirit,
+        HeroLives
     }
 
     public enum Race : byte {
