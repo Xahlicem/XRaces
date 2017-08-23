@@ -41,6 +41,14 @@ namespace XRaces {
 
         public override void UpdateDead() {
             wet = false;
+            falling = false;
+            idle = 0;
+        }
+
+        public override void PreUpdate() {
+            if (Main.netMode == NetmodeID.Server && race != Race.Demon) {
+                //NetMessage.BroadcastChatMessage(Terraria.Localization.NetworkText.FromLiteral(player.name + " " + race.ToString()), Color.White);
+            }
         }
 
         public override void PreUpdateBuffs() {
@@ -102,11 +110,13 @@ namespace XRaces {
         }
 
         public override void clientClone(ModPlayer clone) {
-            //Main.NewText(((XRPlayer) clientClone).race.ToString() + " CloneBefore");
-			base.clientClone( clone );
-			var myclone = (XRPlayer)clone;
+            base.clientClone(clone);
+            var myclone = (XRPlayer) clone;
+            //Main.NewText(myclone.race.ToString() + " CloneBefore");
             myclone.race = this.race;
-            //Main.NewText(((XRPlayer) clientClone).race.ToString() + " CloneAfter");
+            myclone.wet = this.wet;
+            myclone.falling = this.falling;
+            //Main.NewText(myclone.race.ToString() + " CloneAfter");
         }
 
         public override void SendClientChanges(ModPlayer clientPlayer) {
@@ -115,21 +125,25 @@ namespace XRaces {
 
         public override void PostUpdate() {
             if (Main.netMode == NetmodeID.MultiplayerClient && player.Equals(Main.LocalPlayer)) {
-                ModPacket packet = this.mod.GetPacket();
-
-                packet.Write((byte) XRModMessageType.Race);
-                packet.Write(this.player.whoAmI);
-                packet.Write((byte) this.race);
-                packet.Write(hair);
-                packet.WriteRGB(cHair);
-                packet.WriteRGB(cEye);
-                packet.WriteRGB(cSkin);
-                packet.Write(wet);
-                packet.Write(falling);
-                packet.Write(idle);
-
-                packet.Send();
+                GetPacket((byte) XRModMessageType.FromClient).Send();
             }
+        }
+
+        public ModPacket GetPacket(byte packetType) {
+            ModPacket packet = this.mod.GetPacket();
+
+            packet.Write((byte) packetType);
+            packet.Write(this.player.whoAmI);
+            packet.Write((byte) this.race);
+            packet.Write(player.hair);
+            packet.WriteRGB(player.hairColor);
+            packet.WriteRGB(player.eyeColor);
+            packet.WriteRGB(player.skinColor);
+            packet.Write(wet);
+            packet.Write(falling);
+            packet.Write(idle);
+
+            return packet;
         }
 
         public void ChangeRace(Race r, bool force = false) {

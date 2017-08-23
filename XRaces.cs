@@ -51,36 +51,51 @@ namespace XRaces {
         }
         public override void HandlePacket(System.IO.BinaryReader reader, int whoAmI) {
             XRModMessageType msgType = (XRModMessageType) reader.ReadByte();
+            Player player = Main.player[reader.ReadInt32()];
+            XRPlayer modPlayer = player.GetModPlayer<XRPlayer>();
 
             switch (msgType) {
-                case XRModMessageType.Race:
-                    Player player = Main.player[reader.ReadInt32()];
-                    XRPlayer modPlayer = player.GetModPlayer<XRPlayer>();
-                    if (!player.Equals(Main.LocalPlayer) || Main.netMode == NetmodeID.Server) {
+                case XRModMessageType.FromClient:
+                    if (Main.netMode == NetmodeID.Server) {
                         Race race = (Race) reader.ReadByte();
                         modPlayer.race = race;
-                        modPlayer.hair = reader.ReadInt32();
-                        modPlayer.cHair = reader.ReadRGB();
-                        modPlayer.cEye = reader.ReadRGB();
-                        modPlayer.cSkin = reader.ReadRGB();
+                        modPlayer.player.hair = reader.ReadInt32();
+                        modPlayer.player.hairColor = reader.ReadRGB();
+                        modPlayer.player.eyeColor = reader.ReadRGB();
+                        modPlayer.player.skinColor = reader.ReadRGB();
                         modPlayer.wet = reader.ReadBoolean();
                         modPlayer.falling = reader.ReadBoolean();
                         modPlayer.idle = reader.ReadInt32();
+
+                        modPlayer.GetPacket((byte) XRModMessageType.FromServer).Send();
                         //NetMessage.BroadcastChatMessage(Terraria.Localization.NetworkText.FromLiteral(player.name + " " + race.ToString()), Microsoft.Xna.Framework.Color.White);
                     }
                     break;
+
+                case XRModMessageType.FromServer:
+                    if (!player.Equals(Main.LocalPlayer)) {
+                        Race race = (Race) reader.ReadByte();
+                        modPlayer.race = race;
+                        modPlayer.player.hair = reader.ReadInt32();
+                        modPlayer.player.hairColor = reader.ReadRGB();
+                        modPlayer.player.eyeColor = reader.ReadRGB();
+                        modPlayer.player.skinColor = reader.ReadRGB();
+                        modPlayer.wet = reader.ReadBoolean();
+                        modPlayer.falling = reader.ReadBoolean();
+                        modPlayer.idle = reader.ReadInt32();
+                    }
+                    break;
+
                 default:
-                    ErrorLogger.Log("ExampleMod: Unknown Message type: " + msgType);
+                    ErrorLogger.Log("XRaces: Unknown Message type: " + msgType);
                     break;
             }
         }
     }
 
     enum XRModMessageType : byte {
-        Race,
-        VolcanicRubbleMultiplayerFix,
-        PuritySpirit,
-        HeroLives
+        FromServer,
+        FromClient
     }
 
     public enum Race : byte {
