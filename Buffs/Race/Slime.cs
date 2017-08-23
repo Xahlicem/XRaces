@@ -20,16 +20,19 @@ namespace XRaces.Buffs.Race
 
         public override void Update(Player player, ref int buffIndex) {
             XRPlayer modPlayer = player.GetModPlayer<XRPlayer>();
-                    player.noFallDmg = true;
-                    player.jumpSpeedBoost += 1;
-                    player.jumpBoost = true;
-                    player.slippy = true;
-                    player.AddBuff(BuffID.Slimed, 10);
+            player.noFallDmg = true;
+            player.jumpSpeedBoost += 1;
+            player.jumpBoost = true;
+            player.slippy = true;
+            player.AddBuff(BuffID.Slimed, 10);
 
-                    if (player.wet) {
-                        player.gravity = -0.5f;
-                    }
+            if (player.wet) {
+                player.gravity = -0.5f;
+            }
 
+            if (Main.time % 300 == 0) {
+                player.PutItemInInventory(ItemID.Gel);
+            }
         }
     }
 }
