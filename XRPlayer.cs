@@ -45,12 +45,6 @@ namespace XRaces {
             idle = 0;
         }
 
-        public override void PreUpdate() {
-            if (Main.netMode == NetmodeID.Server && race != Race.Demon) {
-                //NetMessage.BroadcastChatMessage(Terraria.Localization.NetworkText.FromLiteral(player.name + " " + race.ToString()), Color.White);
-            }
-        }
-
         public override void PreUpdateBuffs() {
             wet = (player.FindBuffIndex(BuffID.Wet)) != -1 || player.wet;
             if (player.lavaWet || player.honeyWet) {
@@ -112,15 +106,9 @@ namespace XRaces {
         public override void clientClone(ModPlayer clone) {
             base.clientClone(clone);
             var myclone = (XRPlayer) clone;
-            //Main.NewText(myclone.race.ToString() + " CloneBefore");
             myclone.race = this.race;
             myclone.wet = this.wet;
             myclone.falling = this.falling;
-            //Main.NewText(myclone.race.ToString() + " CloneAfter");
-        }
-
-        public override void SendClientChanges(ModPlayer clientPlayer) {
-            //Main.NewText(((XRPlayer) clientPlayer).race.ToString() + " Player");
         }
 
         public override void PostUpdate() {
