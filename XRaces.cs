@@ -35,6 +35,12 @@ namespace XRaces {
             }
         }
 
+        public override void Unload() {
+            Main.playerTextures[0, 0] = head;
+            Main.playerTextures[0, 1] = eyeWhites;
+            Main.playerTextures[0, 2] = eyes;
+        }
+
         public override void AddRecipeGroups() {
             RecipeGroup group = new RecipeGroup(() => Language.GetText("any") + " Soul", new int[] {
                 this.ItemType<Items.Misc.AntSoul>(),
