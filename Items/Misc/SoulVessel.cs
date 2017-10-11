@@ -29,4 +29,12 @@ namespace XRaces.Items.Misc {
             recipe.AddRecipe();
         }
     }
+
+    public class XToolTipLine : TooltipLine {
+
+        public XToolTipLine(Mod mod, string name, string text, bool bad) : base(mod, name, text) {
+            isModifier = true;
+            isModifierBad = bad;
+        }
+    }
 }

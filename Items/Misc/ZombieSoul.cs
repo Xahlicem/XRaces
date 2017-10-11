@@ -36,31 +36,12 @@ namespace XRaces.Items.Misc {
         }
 
         public override void ModifyTooltips(System.Collections.Generic.List<TooltipLine> tooltips) {
-            TooltipLine l;
-            l = new TooltipLine(mod, "Zombie", "You don't need to breathe or swim");
-            l.isModifier = true;
-            l.isModifierBad = false;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Zombie", "You walk and attack slower");
-            l.isModifier = true;
-            l.isModifierBad = true;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Zombie", "You are a heavy hitter");
-            l.isModifier = true;
-            l.isModifierBad = false;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Zombie", "You have low life");
-            l.isModifier = true;
-            l.isModifierBad = true;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Zombie", "You regenerate life quickly");
-            l.isModifier = true;
-            l.isModifierBad = false;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Zombie", "You deal less ranged and thrown damage");
-            l.isModifier = true;
-            l.isModifierBad = true;
-            tooltips.Add(l);
+            tooltips.Add(new XToolTipLine(mod, "Zombie", "No need to breathe or swim", false));
+            tooltips.Add(new XToolTipLine(mod, "Zombie", "Walk and attack slower", true));
+            tooltips.Add(new XToolTipLine(mod, "Zombie", "You are a heavy hitter", false));
+            tooltips.Add(new XToolTipLine(mod, "Zombie", "Lower life", true));
+            tooltips.Add(new XToolTipLine(mod, "Zombie", "Regenerate life quickly", false));
+            tooltips.Add(new XToolTipLine(mod, "Zombie", "Reduced ranged and thrown damage", true));
         }
     }
 }

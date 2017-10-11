@@ -35,31 +35,12 @@ namespace XRaces.Items.Misc {
         }
 
         public override void ModifyTooltips(System.Collections.Generic.List<TooltipLine> tooltips) {
-            TooltipLine l;
-            l = new TooltipLine(mod, "Demon", "You take damage from water");
-            l.isModifier = true;
-            l.isModifierBad = true;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Demon", "You can go in lava");
-            l.isModifier = true;
-            l.isModifierBad = false;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Demon", "Mana cost changes based on depth");
-            l.isModifier = true;
-            l.isModifierBad = true;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Demon", "+25% magic damage");
-            l.isModifier = true;
-            l.isModifierBad = false;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Demon", "Reduced ranged damage");
-            l.isModifier = true;
-            l.isModifierBad = true;
-            tooltips.Add(l);
-            l = new TooltipLine(mod, "Demon", "More damage as you kill");
-            l.isModifier = true;
-            l.isModifierBad = false;
-            tooltips.Add(l);
+            tooltips.Add(new XToolTipLine(mod, "Demon", "You take damage from water", true));
+            tooltips.Add(new XToolTipLine(mod, "Demon", "You can go in lava", false));
+            tooltips.Add(new XToolTipLine(mod, "Demon", "Mana cost changes based on depth", false));
+            tooltips.Add(new XToolTipLine(mod, "Demon", "Increased magic damage", false));
+            tooltips.Add(new XToolTipLine(mod, "Demon", "Reduced ranged damage", true));
+            tooltips.Add(new XToolTipLine(mod, "Demon", "More damage as you kill", false));
         }
     }
 }

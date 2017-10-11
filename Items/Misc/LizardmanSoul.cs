@@ -34,5 +34,13 @@ namespace XRaces.Items.Misc {
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+
+        public override void ModifyTooltips(System.Collections.Generic.List<TooltipLine> tooltips) {
+            tooltips.Add(new XToolTipLine(mod, "Lizardman", "Cannot breathe air", true));
+            tooltips.Add(new XToolTipLine(mod, "Lizardman", "Breathe and swim in water", false));
+            tooltips.Add(new XToolTipLine(mod, "Lizardman", "Regenerate life faster", false));
+            tooltips.Add(new XToolTipLine(mod, "Lizardman", "Move faster in water and in the day", false));
+            tooltips.Add(new XToolTipLine(mod, "Lizardman", "Sense enemies", false));
+        }
     }
 }

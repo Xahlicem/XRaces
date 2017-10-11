@@ -35,7 +35,7 @@ namespace XRaces.Items.Misc {
         }
 
         public override void ModifyTooltips(System.Collections.Generic.List<TooltipLine> tooltips) {
-            tooltips.Add(new XToolTipLine(mod, "Robot", "You use mana as energy", false));
+            tooltips.Add(new XToolTipLine(mod, "Robot", "Use mana as energy", false));
             tooltips.Add(new XToolTipLine(mod, "Robot", "Moving/Attacking drains energy", true));
             tooltips.Add(new XToolTipLine(mod, "Robot", "Standing still recharges energy", false));
             tooltips.Add(new XToolTipLine(mod, "Robot", "Water short-circuits you", true));
