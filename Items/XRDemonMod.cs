@@ -13,34 +13,6 @@ using Terraria.ModLoader.IO;
 namespace XRaces.Items {
     public class XRDemonMod : GlobalItem {
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-            if (item.type == mod.ItemType<Items.Misc.DemonSoul>()) {
-                int i = 4;
-                TooltipLine l = new TooltipLine(mod, "Demon", "You take damage from water");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Demon", "You can go in lava");
-                l.isModifier = true;
-                l.isModifierBad = false;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Demon", "Mana cost changes based on depth");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Demon", "+25% magic damage");
-                l.isModifier = true;
-                l.isModifierBad = false;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Demon", "Reduced ranged damage");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Demon", "More damage as you kill");
-                l.isModifier = true;
-                l.isModifierBad = false;
-                tooltips.Insert(i++, l);
-            }
-
             XRPlayer player = Main.player[item.owner].GetModPlayer<XRPlayer>();
             if (player.race != Race.Demon) return;
             int damageIndex = -1, manaCostIndex = -1, tooltipIndex = -1, modIndex = -1;

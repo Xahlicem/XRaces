@@ -13,35 +13,6 @@ using Terraria.ModLoader.IO;
 namespace XRaces.Items {
     public class XRZombieMod : GlobalItem {
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-            if (item.type == mod.ItemType<Items.Misc.ZombieSoul>()) {
-                int i = 4;
-                TooltipLine l = new TooltipLine(mod, "Zombie", "You don't need to breathe or swim");
-                l.isModifier = true;
-                l.isModifierBad = false;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Zombie", "You walk and attack slower");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Zombie", "You are a heavy hitter");
-                l.isModifier = true;
-                l.isModifierBad = false;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Zombie", "You have low life");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Zombie", "You regenerate life quickly");
-                l.isModifier = true;
-                l.isModifierBad = false;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Zombie", "You deal less ranged and thrown damage");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                return;
-            }
-
             XRPlayer player = Main.player[item.owner].GetModPlayer<XRPlayer>();
             if (player.race != Race.Zombie) return;
             int damageIndex = -1, speedIndex = -1, tooltipIndex = -1, modIndex = -1;
@@ -53,7 +24,7 @@ namespace XRaces.Items {
             }
             if (tooltipIndex == -1) tooltipIndex = tooltips.Count - 1;
             TooltipLine line;
-            
+
             if (item.ranged) {
                 bool bad = true;
                 if (damageIndex != -1) {

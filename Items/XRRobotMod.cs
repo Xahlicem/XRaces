@@ -13,39 +13,6 @@ using Terraria.ModLoader.IO;
 namespace XRaces.Items {
     public class XRRobotMod : GlobalItem {
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-            if (item.type == mod.ItemType<Items.Misc.RobotSoul>()) {
-                int i = 4;
-                TooltipLine l = new TooltipLine(mod, "Robot", "You use mana as energy");
-                l.isModifier = true;
-                l.isModifierBad = false;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Moving/Attacking drains energy");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Standing still recharges energy");
-                l.isModifier = true;
-                l.isModifierBad = false;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Water short-circuits you");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "More energy = more damage/speed");
-                l.isModifier = true;
-                l.isModifierBad = false;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Less energy = less damage/speed");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                l = new TooltipLine(mod, "Robot", "Reduced summon damage");
-                l.isModifier = true;
-                l.isModifierBad = true;
-                tooltips.Insert(i++, l);
-                return;
-            }
-
             XRPlayer player = Main.player[item.owner].GetModPlayer<XRPlayer>();
             if (player.race != Race.Robot) return;
             int damageIndex = -1, speedIndex = -1, tooltipIndex = -1, modIndex = -1;

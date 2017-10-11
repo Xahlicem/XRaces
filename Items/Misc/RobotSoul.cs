@@ -33,5 +33,15 @@ namespace XRaces.Items.Misc {
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+
+        public override void ModifyTooltips(System.Collections.Generic.List<TooltipLine> tooltips) {
+            tooltips.Add(new XToolTipLine(mod, "Robot", "You use mana as energy", false));
+            tooltips.Add(new XToolTipLine(mod, "Robot", "Moving/Attacking drains energy", true));
+            tooltips.Add(new XToolTipLine(mod, "Robot", "Standing still recharges energy", false));
+            tooltips.Add(new XToolTipLine(mod, "Robot", "Water short-circuits you", true));
+            tooltips.Add(new XToolTipLine(mod, "Robot", "More energy = more damage/speed", false));
+            tooltips.Add(new XToolTipLine(mod, "Robot", "Less energy = less damage/speed", true));
+            tooltips.Add(new XToolTipLine(mod, "Robot", "Reduced summon damage", true));
+        }
     }
 }
