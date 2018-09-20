@@ -23,7 +23,7 @@ namespace XRaces {
         public int idle = 0;
         public float manaMaxMul = 1f;
 
-        public override void SetupStartInventory(IList<Item> items) {
+        public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath) {
             Item item = new Item();
             item.SetDefaults(mod.ItemType<Items.Misc.SoulVessel>());
             item.stack = 1;
